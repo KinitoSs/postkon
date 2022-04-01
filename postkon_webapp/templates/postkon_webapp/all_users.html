@@ -1,0 +1,13 @@
+{% extends 'postkon_webapp/base.html' %}
+{% block title %}
+    Все пользователи
+{% endblock title %}
+{% block content %}
+    <ul>
+        {% for user in users %}
+            <li>
+                <a href="{{ user.get_url }}">{{ user.username }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
