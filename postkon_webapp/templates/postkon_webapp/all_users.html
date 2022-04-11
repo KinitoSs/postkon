@@ -3,11 +3,17 @@
     Все пользователи
 {% endblock title %}
 {% block content %}
-    <ul>
-        {% for user in users %}
-            <li>
-                <a href="{{ user.get_url }}">{{ user.username }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="row">
+        <div class="col-6 align-left">
+            <form class="form-inline">
+                <i id="search-icon" class="fas fa-search" aria-hidden="true"></i>
+                <input id="user-input"
+                       class="form-control form-control-sm ml-3 w-75"
+                       type="text"
+                       placeholder="Search"
+                       aria-label="Search">
+            </form>
+        </div>
+        <div id="replaceable-content" class="col-6">{% include 'postkon_webapp/all_users_search.html' %}</div>
+    </div>
 {% endblock content %}
