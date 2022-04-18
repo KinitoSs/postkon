@@ -1,0 +1,43 @@
+html, body {
+    margin: 0;
+    width: 100%;
+    background-color: #EFFFFD;
+    font-family: 'Rubik', sans-serif;
+    font-style: normal;
+    color: #05405C;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 160%;
+}
+
+
+main {
+    margin: 0 auto;
+    padding-top: 100pt;
+}
+
+
+
+
+/* Палитра */
+/* .theme-light {
+    --color-primary: #F9BEBD;
+    --color-secondary: #FFDFCD;
+    --color-accent: #8A6A54;
+    --font-color: #8A6A54;
+    --title-color: #FFDFCD;
+    --color-shop-animals: #00D1FF;
+    --color-shop-upgrades: #34EF7F;
+    --gradient: linear-gradient(158.37deg, #E7F0B4 8.96%, #F9CBBD 66.17%);
+  }
+  
+  .theme-dark {
+    --color-primary: #26263F;
+    --color-secondary: #BFB3FE;
+    --color-accent: #5C4BB2;
+    --font-color: #ffffff;
+    --title-color: #ffffff;
+    --color-shop-animals: #5C4BB2;
+    --color-shop-upgrades: rgb(37, 178, 221);
+    --gradient: linear-gradient(163.1deg, #272740 -33.48%, #4826A4 138.39%);
+  } */

@@ -1,0 +1,68 @@
+{% extends 'postkon_webapp/base.html' %}
+{% load static %}
+
+{% block css_additional %}
+  <link rel="stylesheet" href="{% static 'postkon_webapp/css/style_posts.css' %}">
+  <link rel="stylesheet" href="{% static 'postkon_webapp/css/style_search.css' %}">
+  <link rel="stylesheet" href="{% static 'postkon_webapp/css/style_navbar.css' %}">
+{% endblock css_additional %}
+
+{% block title %}
+  Посты
+{% endblock title %}
+
+{% block content %}
+  {% include 'postkon_webapp/navbar.html' %}
+  <main>
+    {% include 'postkon_webapp/search_users.html' %}
+    <div class="posts">
+      <div id='container'>
+        <div id='form-container'>
+          <div class="avatar-mini">
+            <img src="{% static 'postkon_webapp/img/work_space/avatar_mini.svg' %}" alt="альтернативный текст" />
+          </div>
+          <div class="form-work-space">
+            <form action='#' id='post-form'>
+              <textarea placeholder="Текст поста!" rows="1" cols="120" id="ta"></textarea>
+              <!-- <button type='submit' class="btn">Publish</button> -->
+              <div class="pos-btn">
+                <input type='submit' value='Опубликовать' class="btn">
+              </div>
+            </form>
+          </div>
+        </div>
+        <div id='feed-container'>
+          <ul id='feed'>
+            {% for post in posts reversed %}
+              <li class='post'>
+                <div class="post-info">
+                  <div class="avatar-mini">
+                    <img src="{% static 'postkon_webapp/img/work_space/avatar_mini.svg' %}" alt="альтернативный текст" />  
+                  </div>
+                  <div class="name-and-time">
+                    <div class="name-p">
+                      <p class="name-post">{{ post.user.username }}</p>
+                    </div>
+                    <div class="post-t">
+                      <p class='post-timestamp'>{{ post.date_uploaded }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="read-more" style="overflow: hidden;">
+                  <p class='post-content'>{{ post.text }}</p>
+                </div>
+                <div onclick="ShowMore(event);" class="read-next read-next-style">Показать полностью...</div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>    
+    </div>
+  </main>
+{% endblock content %}
+
+{% block js_additional %}
+  <script src="{% static 'postkon_webapp/js/main.js' %}"></script>
+  <script src="{% static 'postkon_webapp/js/script_posts.js' %}"></script>
+  <script src="{% static 'postkon_webapp/js/search_users.js' %}"></script>
+{% endblock js_additional %}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 600 600" style="enable-background:new 0 0 600 600;" xml:space="preserve">
+<style type="text/css">
+	.st0{display:none;}
+	.st1{display:none;fill:#FFFFFF;stroke:#000000;stroke-miterlimit:10;}
+	.st2{display:inline;fill:#F62F31;stroke:#000000;stroke-miterlimit:10;}
+	.st3{display:none;fill:#F62F31;stroke:#000000;stroke-miterlimit:10;}
+	.st4{fill:#41B4D3;}
+	.st5{fill:#88D2E2;}
+	.st6{fill:#BAE5E7;}
+	.st7{display:none;fill:#F03B9B;}
+	.st8{display:inline;fill:#CB2B92;stroke:#000000;stroke-width:0.25;stroke-miterlimit:10;}
+	.st9{display:inline;fill:none;stroke:#000000;stroke-width:0.25;stroke-miterlimit:10;}
+</style>
+<g id="Слой_1" class="st0">
+</g>
+<g id="Слой_3" class="st0">
+</g>
+<g id="Слой_2">
+	<path class="st1" d="M310.57,143.91"/>
+	<g class="st0">
+		<polygon class="st2" points="85.87,118.08 164.17,39.78 199.72,75.34 160.57,114.49 291.21,245.12 252.06,284.27 		"/>
+		<polygon class="st2" points="245.07,526.93 138.1,498.27 151.12,449.7 204.6,464.03 252.41,285.58 305.9,299.91 		"/>
+		<polygon class="st2" points="519.54,184.65 548.2,291.61 499.64,304.62 485.31,251.14 306.85,298.96 292.52,245.48 		"/>
+	</g>
+	<line class="st3" x1="519.54" y1="184.65" x2="292.52" y2="245.48"/>
+	<polygon class="st4" points="400.83,68.22 281.67,270.81 95.75,269.99 96.19,214.62 45.91,214.21 45.02,324.95 281.21,327.53 
+		372.29,488.26 324.12,515.56 348.91,559.3 445.25,504.71 329.4,298.88 423.06,139.63 470.78,167.7 496.27,124.36 	"/>
+	<polygon class="st5" points="391.69,91.98 284.48,274.26 117.18,273.52 117.58,223.71 72.34,223.34 71.54,322.98 284.06,325.3 
+		366.02,469.93 322.67,494.49 344.98,533.85 431.67,484.73 327.42,299.52 411.7,156.23 454.64,181.49 477.58,142.49 	"/>
+	<g>
+		<polygon class="st6" points="382.1,115.49 286.99,277.19 138.59,276.54 138.95,232.35 98.81,232.02 98.1,320.4 286.62,322.46 
+			359.32,450.76 320.87,472.54 340.66,507.46 417.55,463.89 325.08,299.6 399.84,172.49 437.93,194.9 458.28,160.3 		"/>
+	</g>
+	<polygon class="st7" points="286.99,277.19 286.62,322.46 325.08,299.6 	"/>
+</g>
+<g id="Слой_4" class="st0">
+	<line class="st8" x1="286.99" y1="277.19" x2="305.85" y2="311.48"/>
+	<line class="st9" x1="286.62" y1="322.46" x2="305.85" y2="288.29"/>
+	<line class="st9" x1="325.08" y1="299.6" x2="286.81" y2="299.6"/>
+</g>
+</svg>

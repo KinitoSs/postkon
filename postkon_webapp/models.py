@@ -20,6 +20,9 @@ class User(models.Model):
     def get_url(self):
         return reverse('one_user', args=[self.slug])
 
+    def get_settings_url(self):
+        return reverse('user_settings', args=[self.slug])
+
     def __str__(self):
         return f'{self.username}'
 

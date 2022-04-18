@@ -1,40 +1,37 @@
-const user_input = $("#user-input")
-const search_icon = $('#search-icon')
-const users_div = $('#replaceable-content')
-const endpoint = '/users/'
-const delay_by_in_ms = 700
-let scheduled_function = false
+let count_click = 0;
+document.querySelector("#Logo-bar").addEventListener('click', function() {
+    count_click++;
+    if (count_click >= 10){
+      RotateLogoOn();
+      // NaziOn();
+    }
+    if (count_click >= 20) {
+      RotateLogoOff();
+      // NaziOff();
+      count_click = 0;
+    }
+});
 
-let ajax_call = function (endpoint, request_parameters) {
-	$.getJSON(endpoint, request_parameters)
-		.done(response => {
-			// fade out the users_div, then:
-			users_div.fadeTo('slow', 0).promise().then(() => {
-				// replace the HTML contents
-				users_div.html(response['html_from_view'])
-				// fade-in the div with new contents
-				users_div.fadeTo('slow', 1)
-				// stop animating search icon
-				search_icon.removeClass('blink')
-			})
-		})
+function RotateLogoOn() {
+  document.querySelector("#Logo-bar").classList.add('rotation');
 }
+function RotateLogoOff(){
+  document.querySelector("#Logo-bar").classList.remove('rotation');
+}
+function NaziOn(){
+   document.getElementById("Logo-bar").src = 'img/111.png';
+   document.querySelector("nav").classList.add('nazi');
+   document.querySelector("body").style.backgroundColor = "darkred";
+   document.querySelector("nav").style.boxShadow = "0px 18px 20px 0px rgba(239, 0, 0, 1)";
+   document.querySelector(".profile-card__img img").src = "img/123.jpg";
+   document.querySelector("audio").play();
 
-
-user_input.on('keyup', function () {
-
-	const request_parameters = {
-		q: $(this).val() // value of user_input: the HTML element with ID user-input
-	}
-
-	// start animating the search icon with the CSS class
-	search_icon.addClass('blink')
-
-	// if scheduled_function is NOT false, cancel the execution of the function
-	if (scheduled_function) {
-		clearTimeout(scheduled_function)
-	}
-
-	// setTimeout returns the ID of the function to be executed
-	scheduled_function = setTimeout(ajax_call, delay_by_in_ms, endpoint, request_parameters)
-})
+}
+function NaziOff(){
+   document.getElementById("Logo-bar").src = 'img/L_b.svg';
+   document.querySelector("nav").classList.remove('nazi');
+   document.querySelector("body").style.backgroundColor = "#EFFFFD";
+   document.querySelector("nav").style.boxShadow = "0px 18px 20px 0px rgba(239, 255, 253, 1)";
+   document.querySelector(".profile-card__img img").src = "img/info_about_profile/avatar_profile.svg";
+   document.querySelector("audio").pause();
+}
