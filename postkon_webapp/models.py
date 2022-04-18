@@ -28,20 +28,20 @@ class User(models.Model):
     slug = models.SlugField(default='', null=False, db_index=True)
 
     def get_url(self):
-         '''
-         Функция возвращает url пользователя на основе slug записи его username
-
-         :return: str
-         '''
+        '''
+        Функция возвращает url пользователя на основе slug записи его username
+        
+        :return: str
+        '''
         return reverse('one_user', args=[self.slug])
 
     def get_settings_url(self):
         return reverse('user_settings', args=[self.slug])
 
     def __str__(self):
-         '''
-         Функция переопределяет магический метод __str__ для читабельного строчного отображения экземпляра класса.
-         '''
+        '''
+        Функция переопределяет магический метод __str__ для читабельного строчного отображения экземпляра класса.
+        '''
         return f'{self.username}'
 
 
@@ -56,7 +56,7 @@ class Post(models.Model):
     text = models.CharField(max_length=500)
 
     def __str__(self):
-         '''
-         Функция переопределяет магический метод __str__ для читабельного строчного отображения экземпляра класса.
-         '''
+        '''
+        Функция переопределяет магический метод __str__ для читабельного строчного отображения экземпляра класса.
+        '''
         return f'{self.user.username} - {self.date_uploaded}'
