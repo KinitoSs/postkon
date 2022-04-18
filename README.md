@@ -4,6 +4,8 @@
 
 Чтобы запустить сайт, нужно клонровать репозиторий, открыть командную строку в папке проекта, написать `python manage.py runserver` или `py manage.py runserver`, `python3 manage.py runserver`.
 
+В адресной строке в браузере написать, к примеру, `localhost:8000/users/kin`.
+
 ## Навигация по проекту
 
 * HTML-файлы находятся по пути: `postkon/postkon_webapp/templates/postkon_webapp/`.
