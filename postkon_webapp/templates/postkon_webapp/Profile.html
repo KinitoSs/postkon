@@ -21,7 +21,7 @@
           <img src="{% static 'postkon_webapp/img/info_about_profile/avatar_profile.svg' %}" alt="profile card">
         </div>
         <div class="profile-card__cnt">
-          <div class="profile-card__name">{{ user.first_name }} {{ user.last_name }} </div>
+          <div class="profile-card__name">{{ profile.user.first_name }} {{ profile.user.last_name }}</div>
           <div class="profile-card-date-of-birth">
             <div class="cal-profile">
               <img src="{% static 'postkon_webapp/img/info_about_profile/cal_profile.svg' %}">
@@ -30,7 +30,7 @@
               {{ user.birthday }}
             </div>
           </div>
-          <span class="profile-card-description">{% if user.status %}{{ user.status }}{% else %}Статус не установлен.{% endif %}</span>
+          <span class="profile-card-description">{% if profile.status %}{{ profile.status }}{% else %}Статус не установлен.{% endif %}</span>
           <div class="subsribes">
             <div class="separation-line"></div>
             <div><svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,6 +48,7 @@
     {% include 'postkon_webapp/search_users.html' %}
     <div class="posts">
       <div id='container'>
+        {% if profile == request.user.profile %}
         <div id='form-container'>
           <div class="avatar-mini">
             <img src="{% static 'postkon_webapp/img/work_space/avatar_mini.svg' %}" alt="альтернативный текст" />
@@ -63,6 +64,7 @@
             </form>
           </div>
         </div>
+        {% endif %}
         <div id='feed-container'>
           <ul id='feed'>
             {% for post in posts reversed %}

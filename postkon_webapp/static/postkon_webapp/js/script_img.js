@@ -11,4 +11,5 @@ document.querySelector("#next").addEventListener('click', function() {
     i = i + 1;
     document.querySelector(".img-avatar").setAttribute('src', url_img[Math.abs(i)%url_img.length]);
     url_value = url_img[Math.abs(i)%url_img.length]
+    console.log('хуй')
 });

@@ -1,47 +1,111 @@
-from django.shortcuts import get_object_or_404, render
-from .models import User, Post
+from unicodedata import name
+from django.forms import ModelForm
+from django.shortcuts import get_object_or_404, render, HttpResponse, redirect
+from .models import Profile, Post
+from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import LoginView, LogoutView
+from django.views import View
+from django.contrib.auth.forms import UserCreationForm
+from postkon_webapp.forms import RegisterForm, SettingsForm
 
 # Create your views here.
 
 
-def index(request):
-    return render(request, 'postkon_webapp/login.html')
+class Login(LoginView):
+    template_name = 'postkon_webapp/login.html'
 
 
-# def show_all_users(request):
-#     users = User.objects.all()
-#     return render(request, 'postkon_webapp/all_users.html', context={
-#         'users': users
-#     })
+class Logout(LogoutView):
+    next_page = '/login'  # Редирект на страницу логина
 
-def search_users(request, search_input):
-    search_input = ""
+
+def main_page(request):
+    if request.user.is_authenticated:
+        posts = Post.objects.all()
+        return render(request, 'postkon_webapp/posts.html', context={
+            'posts': posts,
+        })
+    else:
+        return redirect('/login')
+
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            birthday = form.cleaned_data.get('birthday')
+            Profile.objects.create(
+                user=user,
+                birthday=birthday,
+            )
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('/')
+    else:
+        form = RegisterForm()
+    return render(request, 'postkon_webapp/register.html', {'form': form})
+
+
+def search_users(search_input):
     username_filter = User.objects.filter(username__icontains=search_input)
     first_name_filter = User.objects.filter(first_name__icontains=search_input)
     last_name_filter = User.objects.filter(last_name__icontains=search_input)
-    result = username_filter.union(first_name_filter).union(last_name_filter)
+    users = username_filter.union(first_name_filter).union(last_name_filter)
+    jsons = []
+
+    for user in users:
+        profile = user.profile
+        jsons.append(
+            f'''
+            "username": {user.username}
+            "img_src": {profile.avatar_img}
+            "url": {profile.get_url}
+            '''
+        )
+
+    '''
+    JSON: username, img_src, url
+    '''
+
 
 def show_one_user(request, slug_user: str):
-    user = get_object_or_404(User, slug=slug_user)
-    posts = Post.objects.filter(user=user)
-    return render(request, 'postkon_webapp/Profile.html', context={
-        'user': user,
-        'posts': posts,
-    })
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile, slug=slug_user)
+        posts = Post.objects.filter(user=profile)
+        return render(request, 'postkon_webapp/Profile.html', context={
+            'profile': profile,
+            'posts': posts,
+        })
+    else:
+        return redirect('/login')
 
-def user_settings(request, slug_user:str):
-    user = get_object_or_404(User, slug=slug_user)
-    return render(request, 'postkon_webapp/settings.html', context={
-        'user': user,
-    })
 
-def show_all_posts(request):
-    posts = Post.objects.all()
-    return render(request, 'postkon_webapp/posts.html', context={
-        'posts': posts,
-    })
+def user_settings(request, slug_user: str):
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile, slug=slug_user)
+        if request.user.profile == profile:
+            if request.method == 'POST':
+                form = SettingsForm(request.POST, instance=request.user)
+                if form.is_valid():
+                    new_user = form.save()
+                    return redirect('/')
+            else:
+                form = SettingsForm(request.POST, instance=request.user)
 
-def registration(request):
-    return render(request, 'postkon_webapp/reg.html')
+            return render(request, 'postkon_webapp/settings.html', {'form': form})
+        else:
+            return redirect('/')
+    else:
+        return redirect('/login')
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponse('Вы успешно вышли из учетной записи')
