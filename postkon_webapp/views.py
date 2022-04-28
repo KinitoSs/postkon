@@ -1,6 +1,8 @@
 from unicodedata import name
 from django.forms import ModelForm
 from django.shortcuts import get_object_or_404, render, HttpResponse, redirect
+from matplotlib.font_manager import json_dump, json_load
+from requests import Response
 from .models import Profile, Post
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
@@ -10,6 +12,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views import View
 from django.contrib.auth.forms import UserCreationForm
 from postkon_webapp.forms import RegisterForm, SettingsForm
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 # Create your views here.
 
@@ -53,25 +57,37 @@ def register_view(request):
     return render(request, 'postkon_webapp/register.html', {'form': form})
 
 
-def search_users(search_input):
+@csrf_exempt
+def search_users(request):
+    search_input = request.POST['user_simvol']
     username_filter = User.objects.filter(username__icontains=search_input)
     first_name_filter = User.objects.filter(first_name__icontains=search_input)
     last_name_filter = User.objects.filter(last_name__icontains=search_input)
     users = username_filter.union(first_name_filter).union(last_name_filter)
-    jsons = []
-
+    data = []
     for user in users:
-        profile = user.profile
-        jsons.append(
-            f'''
-            "username": {user.username}
-            "img_src": {profile.avatar_img}
-            "url": {profile.get_url}
-            '''
-        )
+        username = user.username
+        url = 'http://127.0.0.1:8000/users/' + user.profile.slug
+        data.append({
+            "username": username,
+            "url": url
+        })
+    return JsonResponse(data, safe=False)
+
+        # json['username'] = user.username
+        # json['url'] = profile.get_url
+
+        # jsons.append(
+        #     f'''
+        #     "username": {user.username}
+        #     "url": {profile.get_url}
+        #     '''
+        # )
+    
 
     '''
     JSON: username, img_src, url
+    "img_src": {profile.avatar_img}
     '''
 
 

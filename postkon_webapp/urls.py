@@ -11,4 +11,5 @@ urlpatterns = [
     path('users/<slug:slug_user>/settings',
          views.user_settings, name='user_settings'),
     path('register/', views.register_view, name='register'),
+    path('search-user/', views.search_users, name="search_users")
 ]
