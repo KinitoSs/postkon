@@ -17,31 +17,22 @@
     {% include 'postkon_webapp/search_users.html' %}
     <div class="posts">
       <div id='container'>
-        <div id='form-container'>
-          <div class="avatar-mini">
-            <img src="{% static 'postkon_webapp/img/work_space/avatar_mini.svg' %}" alt="альтернативный текст" />
-          </div>
-          <div class="form-work-space">
-            <form action='#' id='post-form'>
-              <textarea placeholder="Текст поста!" rows="1" cols="120" id="ta"></textarea>
-              <!-- <button type='submit' class="btn">Publish</button> -->
-              <div class="pos-btn">
-                <input type='submit' value='Опубликовать' class="btn">
-              </div>
-            </form>
-          </div>
-        </div>
+        {% include 'postkon_webapp/add_post.html' %}
         <div id='feed-container'>
           <ul id='feed'>
             {% for post in posts reversed %}
               <li class='post'>
                 <div class="post-info">
                   <div class="avatar-mini">
-                    <img src="{% static 'postkon_webapp/img/work_space/avatar_mini.svg' %}" alt="альтернативный текст" />  
+                    {% if post.profile.avatar_img %}
+                      <img src="{{ post.profile.avatar_img }}" alt="profile card">
+                    {% else %}
+                      <img src="{% static 'postkon_webapp/img/work_space/avatar_mini.svg' %}" alt="profile card">
+                    {% endif %} 
                   </div>
                   <div class="name-and-time">
                     <div class="name-p">
-                      <p class="name-post">{{ post.user.username }}</p>
+                      <p class="name-post">{{ post.profile.username }}</p>
                     </div>
                     <div class="post-t">
                       <p class='post-timestamp'>{{ post.date_uploaded }}</p>

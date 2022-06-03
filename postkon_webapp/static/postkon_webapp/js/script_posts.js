@@ -52,101 +52,114 @@ $(function () {
       taTop = textarea.offsetTop,
       taLeft = textarea.offsetLeft,
       taText = textarea.value;
-    postTop = document.getElementsByClassName("post")[0].offsetTop;
+      postTop = document.getElementsByClassName("post")[0].offsetTop;
     var $hoverDiv = $("<div>").addClass("hover").text(taText).css({
       height: taHeight,
       width: taWidth,
       top: taTop,
       left: taLeft
     });
-    let d = new Date().getDate();
-    if (d < 10) {
-      d = String(d);
-      d = '0' + d;
-    }
-    let mm = new Date().getMonth() + 1;
-    if (mm < 10) {
-      mm = String(mm);
-      mm = '0' + mm;
-    }
-    let hour = new Date().getHours();
-    if (hour < 10) {
-      hour = String(hour);
-      hour = '0' + hour;
-    }
-    let min = new Date().getMinutes();
-    if (min < 10) {
-      min = String(min);
-      min = '0' + min;
-    }
-    var $postTimestamp = $("<p>")
-      .addClass("post-timestamp")
-      .text('Создано ' + d + "." + mm + "." + new Date().getFullYear() + " в " + hour + ":" + min)
-      .css("visibility", "hidden");
-    var $postt = $("<div>")
-      .addClass("post-t")
-      .append($postTimestamp);
+    // Начало запроса
+    let btn = document.querySelector('.btn');
+    btn.addEventListener('click', async function(event){
+      event.preventDefault();
+      let response = await fetch(addPostUrl, {
+          method: "POST",
+          body: taText
+      })
+      let response_json = await response.json();
+      if (response_json){
 
-    var $namepost = $("<p>")
-      .addClass("name-post")
-      .text("Name User"); // Нужно настроить
+        let d = new Date().getDate();
+        if (d < 10) {
+          d = String(d);
+          d = '0' + d;
+        }
+        let mm = new Date().getMonth() + 1;
+        if (mm < 10) {
+          mm = String(mm);
+          mm = '0' + mm;
+        }
+        let hour = new Date().getHours();
+        if (hour < 10) {
+          hour = String(hour);
+          hour = '0' + hour;
+        }
+        let min = new Date().getMinutes();
+        if (min < 10) {
+          min = String(min);
+          min = '0' + min;
+        }
+        var $postTimestamp = $("<p>")
+          .addClass("post-timestamp")
+          .text('Создано ' + response_json.date_uploaded) // ввввввввввввввввввввввввввввввввввввввв
+          .css("visibility", "hidden");
+        var $postt = $("<div>")
+          .addClass("post-t")
+          .append($postTimestamp);
+    
+        var $namepost = $("<p>")
+          .addClass("name-post")
+          .text(response_json.creator_username); // Имя создателя ввввввввввввввввввввввввввввввв
+    
+        var $namep = $("<div>")
+          .addClass("name-p")
+          .append($namepost);
+    
+        var $nameandtime = $("<div>")
+          .addClass("name-and-time")
+          .append($namep)
+          .append($postt);
+    
+        var $avatarimagemini = $('<img>')
+          .attr("src", response_json.creator_avatar_img); // ввввввввввввввввввввввввввввввввввввв
+    
+        var $avatarmini = $("<div>")
+          .addClass("avatar-mini")
+          .append($avatarimagemini);
+    
+        var $postinfo = $("<div>")
+          .addClass("post-info")
+          .append($avatarmini)
+          .append($nameandtime);
+    
+        var $postContent = $("<p>")
+          .addClass("post-content")
+          .text(taText);
+        var $readmore = $("<div>")
+        .addClass("read-more")
+        .attr('style', "overflow: hidden;")
+        .append($postContent);
+        var $readnext = $("<div>")
+          .addClass('read-next')
+          .addClass('read-next-style')
+          .attr('onclick', "ShowMore(event);")
+          .text("Читать далее...");
+        var $post = $("<li>")
+          .addClass("post")
+          .append($postinfo)
+          .append($readmore)
+          .hide();
+        let ch = calculateHeight();
+        if (ch >= 5){
+          $post.append($readnext);
+        };
+        //textarea.value = "";
+        $post.prependTo("#feed");
+        $hoverDiv
+          .delay(300)
+          .animate({ top: postTop }, 1000, "swing")
+          .queue(function () {
+            $hoverDiv.delay(200).stop().fadeOut();
+            $postTimestamp.hide().css("visibility", "visible").fadeIn();
+          });
+        $post.delay(300).slideDown(1000);
+        console.log("123")
+      } else {
+          console.log("Пост не создан!");
+      }
 
-    var $namep = $("<div>")
-      .addClass("name-p")
-      .append($namepost);
-
-    var $nameandtime = $("<div>")
-      .addClass("name-and-time")
-      .append($namep)
-      .append($postt);
-
-    var $avatarimagemini = $('<img>')
-      .attr("src", "img/work_space/avatar_mini.svg");
-
-    var $avatarmini = $("<div>")
-      .addClass("avatar-mini")
-      .append($avatarimagemini);
-
-    var $postinfo = $("<div>")
-      .addClass("post-info")
-      .append($avatarmini)
-      .append($nameandtime);
-
-    var $postContent = $("<p>")
-      .addClass("post-content")
-      .text(taText);
-    var $readmore = $("<div>")
-    .addClass("read-more")
-    .attr('style', "overflow: hidden;")
-    .append($postContent);
-    var $readnext = $("<div>")
-      .addClass('read-next')
-      .addClass('read-next-style')
-      .attr('onclick', "ShowMore(event);")
-      .text("Читать далее...");
-    var $post = $("<li>")
-      .addClass("post")
-      .append($postinfo)
-      .append($readmore)
-      .hide();
-    let ch = calculateHeight();
-    if (ch >= 5){
-      $post.append($readnext);
-    };
-    // if (String.prototype.lineCount > 3){
-    //   $post.append($readnext);
-    // };
-    textarea.value = "";
-    $post.prependTo("#feed");
-    $hoverDiv
-      .delay(300)
-      .animate({ top: postTop }, 1000, "swing")
-      .queue(function () {
-        $hoverDiv.delay(200).stop().fadeOut();
-        $postTimestamp.hide().css("visibility", "visible").fadeIn();
-      });
-    $post.delay(300).slideDown(1000);
-    // textarea.style = 'height: 60px;'
+    })
   });
 });
 

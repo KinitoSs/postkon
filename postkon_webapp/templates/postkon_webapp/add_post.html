@@ -1,0 +1,23 @@
+{% load static %}
+<div id='form-container'>
+    <div class="avatar-mini">
+        {% if profile.avatar_img %}
+            <img src="{{ profile.avatar_img }}" alt="profile card">
+        {% else %}
+          <img src="{% static 'postkon_webapp/img/work_space/avatar_mini.svg' %}" alt="profile card">
+        {% endif %}
+    </div>
+    <div class="form-work-space">
+      <form action='#' id='post-form' method="post">
+        
+        <textarea placeholder="Текст поста!" rows="1" cols="120" id="ta" name="user_sim"></textarea>
+        <!-- <button type='submit' class="btn">Publish</button> -->
+        <div class="pos-btn">
+          <input type='submit' value='Опубликовать' class="btn">
+        </div>
+        <script type="text/javascript">
+            var addPostUrl = "{% url 'add_post' %}";
+        </script>
+      </form>
+    </div>
+</div>

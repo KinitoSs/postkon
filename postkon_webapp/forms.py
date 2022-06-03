@@ -1,7 +1,8 @@
+from black import err
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from postkon_webapp.models import Profile
+from postkon_webapp.models import Post, Profile
 from django.core.exceptions import ValidationError
 
 
@@ -34,12 +35,17 @@ class RegisterForm(UserCreationForm):
 class SettingsForm(forms.ModelForm):
     first_name = forms.CharField(required=False, label='Имя')
     last_name = forms.CharField(required=False, label='Фамилия')
-    email = forms.EmailField(required=False)
-    password = forms.PasswordInput()
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'password')
+        fields = ('first_name', 'last_name')
 
-    def save(self, commit=True):
-        user = super(SettingsForm, self).save(commit=False)
+class ProfileSettingsForm(forms.ModelForm):
+    status = forms.CharField(required=False, label='Статус')
+    avatar_img = forms.CharField(required=False, label='Ссылка на изображение')
+    # birthday = forms.DateField(
+    #     required=True, label='Дата рождения', widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = Profile
+        fields = ('status', 'avatar_img')

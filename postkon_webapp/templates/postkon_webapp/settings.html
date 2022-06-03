@@ -20,8 +20,9 @@
                     <div class="form-group">
                         {% csrf_token %}
                         {{ form.as_p }}
+                        {{ profile_form.as_p }}
                     </div>
-                    <div class="form-group">
+                    {% comment %} <div class="form-group">
                         <label>аватарка</label>
                         <div class="avatar-slide">
                             <div class="slide-back">
@@ -36,7 +37,7 @@
                                 </svg>
                             </div>  
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                 <div class="accept-btn">
                     <input type="submit" value="Принять" class = "btn">
                 </div>

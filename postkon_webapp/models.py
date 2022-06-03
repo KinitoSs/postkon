@@ -13,7 +13,7 @@ class Profile(models.Model):
         User, related_name="profile", on_delete=models.CASCADE)
     birthday = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=255, null=True, blank=True)
-    avatar_img = models.CharField(max_length=7, null=True, blank=True)
+    avatar_img = models.CharField(max_length=500, null=True, blank=True)
     slug = AutoSlugField(populate_from='user', unique=True)
     # slug = models.SlugField(default='', null=False, db_index=True)
 
@@ -28,9 +28,9 @@ class Profile(models.Model):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     date_uploaded = models.DateTimeField(default=timezone.now)
     text = models.CharField(max_length=500)
 
     def __str__(self):
-        return f'{self.user.username} - {self.date_uploaded}'
+        return f'{self.profile.user.username} - {self.date_uploaded}'

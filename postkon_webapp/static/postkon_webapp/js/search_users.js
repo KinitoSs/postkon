@@ -4,7 +4,7 @@
 let btn = document.querySelector('.btn-search');
 btn.addEventListener('click', async function(event){
     event.preventDefault();
-    let response = await fetch("search-user/", {
+    let response = await fetch(searchUrl, {
         method: "POST",
         body: new FormData(document.querySelector('.form-search'))
     })
@@ -15,13 +15,20 @@ btn.addEventListener('click', async function(event){
         searchElems.forEach(element => {
             element.remove();
         });
+        let avatar_img;
         // document.querySelectorAll('.get-user')
         for (var i = 0; i < response_json.length; i++) {
             let elem = document.createElement("li");
+            if (response_json[i].avatar_img != null){
+                avatar_img = response_json[i].avatar_img;
+            }
+            else {
+                avatar_img = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/F1_light_blue_flag.svg/2560px-F1_light_blue_flag.svg.png";
+            }
             elem.innerHTML = `
                     <div class="info-user">
                         <div class="change-avatar">
-                            <img class="avatar_search" src="https://imgur.com/9KQDrXw.jpg" alt="альтернативный текст" style="width: 50px;
+                            <img class="avatar_search" src="${avatar_img}" alt="альтернативный текст" style="width: 50px;
                             height: 50px;
                             border-radius: 50px;"/>
                         </div>
