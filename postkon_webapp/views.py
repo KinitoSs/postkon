@@ -18,11 +18,14 @@ import json
 
 # Create your views here.
 
+
 class Login(LoginView):
     template_name = 'postkon_webapp/login.html'
 
+
 class Logout(LogoutView):
     next_page = '/login'  # Редирект на страницу логина
+
 
 def main_page(request):
     if request.user.is_authenticated:
@@ -34,6 +37,7 @@ def main_page(request):
         })
     else:
         return redirect('/login')
+
 
 def register_view(request):
     if request.method == 'POST':
@@ -55,6 +59,7 @@ def register_view(request):
         form = RegisterForm()
     return render(request, 'postkon_webapp/register.html', {'form': form})
 
+
 @csrf_exempt
 def search_users(request):
     search_input = request.POST['user_simvol']
@@ -74,6 +79,7 @@ def search_users(request):
         })
     return JsonResponse(data, safe=False)
 
+
 @csrf_exempt
 def add_post(request):
 
@@ -83,7 +89,7 @@ def add_post(request):
         profile=request.user.profile,
         text=user_input
     )
-    
+
     data = {
         "creator_username": created_post.profile.user.username,
         "creator_avatar_img": created_post.profile.avatar_img,
@@ -92,11 +98,12 @@ def add_post(request):
 
     return JsonResponse(data)
 
+
 def show_one_user(request, slug_user: str):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, slug=slug_user)
         posts = Post.objects.filter(profile=profile)
-    
+
         return render(request, 'postkon_webapp/Profile.html', context={
             'profile': profile,
             'posts': posts,
@@ -104,26 +111,31 @@ def show_one_user(request, slug_user: str):
     else:
         return redirect('/login')
 
+
 def user_settings(request, slug_user: str):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, slug=slug_user)
         if request.user.profile == profile:
             if request.method == 'POST':
-                form = SettingsForm(request.POST, request.FILES, instance=request.user)
-                profile_form = ProfileSettingsForm(request.POST, request.FILES, instance=request.user.profile)
+                form = SettingsForm(
+                    request.POST, request.FILES, instance=request.user)
+                profile_form = ProfileSettingsForm(
+                    request.POST, request.FILES, instance=request.user.profile)
                 if form.is_valid() and profile_form.is_valid():
                     form.save()
                     profile_form.save()
                     return redirect('/')
             else:
                 form = SettingsForm(instance=request.user)
-                profile_form = ProfileSettingsForm(instance=request.user.profile)
+                profile_form = ProfileSettingsForm(
+                    instance=request.user.profile)
 
             return render(request, 'postkon_webapp/settings.html', {'form': form, 'profile_form': profile_form})
         else:
             return redirect('/')
     else:
         return redirect('/login')
+
 
 def logout_view(request):
     logout(request)

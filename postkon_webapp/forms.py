@@ -40,6 +40,7 @@ class SettingsForm(forms.ModelForm):
         model = User
         fields = ('first_name', 'last_name')
 
+
 class ProfileSettingsForm(forms.ModelForm):
     status = forms.CharField(required=False, label='Статус')
     avatar_img = forms.CharField(required=False, label='Ссылка на изображение')

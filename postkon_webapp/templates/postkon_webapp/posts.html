@@ -20,31 +20,35 @@
         {% include 'postkon_webapp/add_post.html' %}
         <div id='feed-container'>
           <ul id='feed'>
-            {% for post in posts reversed %}
-              <li class='post'>
-                <div class="post-info">
-                  <div class="avatar-mini">
-                    {% if post.profile.avatar_img %}
-                      <img src="{{ post.profile.avatar_img }}" alt="profile card">
-                    {% else %}
-                      <img src="{% static 'postkon_webapp/img/work_space/avatar_mini.svg' %}" alt="profile card">
-                    {% endif %} 
-                  </div>
-                  <div class="name-and-time">
-                    <div class="name-p">
-                      <p class="name-post">{{ post.profile.username }}</p>
+            {% if posts %}
+              {% for post in posts reversed %}
+                <li class='post'>
+                  <div class="post-info">
+                    <div class="avatar-mini">
+                      {% if post.profile.avatar_img %}
+                        <img src="{{ post.profile.avatar_img }}" alt="profile card">
+                      {% else %}
+                        <img src="{% static 'postkon_webapp/img/work_space/avatar_mini.svg' %}" alt="profile card">
+                      {% endif %} 
                     </div>
-                    <div class="post-t">
-                      <p class='post-timestamp'>{{ post.date_uploaded }}</p>
+                    <div class="name-and-time">
+                      <div class="name-p">
+                        <p class="name-post">{{ post.profile.user.username }}</p>
+                      </div>
+                      <div class="post-t">
+                        <p class='post-timestamp'>{{ post.date_uploaded }}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="read-more" style="overflow: hidden;">
-                  <p class='post-content'>{{ post.text }}</p>
-                </div>
-                <div onclick="ShowMore(event);" class="read-next read-next-style">Показать полностью...</div>
-              </li>
-            {% endfor %}
+                  <div class="read-more" style="overflow: hidden;">
+                    <p class='post-content'>{{ post.text }}</p>
+                  </div>
+                  <div onclick="ShowMore(event);" class="read-next read-next-style">Показать полностью...</div>
+                </li>
+              {% endfor %}
+            {% else %}
+                <li class='post'></li>
+            {% endif %}
           </ul>
         </div>
       </div>    
