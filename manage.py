@@ -2,8 +2,6 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from rich.traceback import install
-install()
 
 
 def main():
