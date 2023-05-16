@@ -1,0 +1,82 @@
+.search-users {
+    background-color: white;
+    width: 250px;
+    /* height: 500px; */
+    position: fixed;
+    float: right;
+    right: 0;
+    margin-top: 120pt;
+    margin-right: 100pt;
+    border-radius: 5px;
+    filter: drop-shadow(0px 4px 9px rgba(0, 0, 0, 0.15));
+
+}
+.search {
+    width: 100%;
+    position: fixed;
+    display: flex;
+  }
+  
+.input-search {
+    width: 100%;
+    border: 3px solid #42C2FF;
+    border-right: none;
+    padding: 5px;
+    height: 20px;
+    border-radius: 5px 0 0 0;
+    outline: none;
+    color: #004e72;
+}
+  
+.input-search:focus{
+    color: #004e72;
+}
+  
+.btn-search {
+    width: 40px;
+    height: 36px;
+    border: 1px solid #42C2FF;
+    background: #42C2FF;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 0 0;
+    cursor: pointer;
+    font-size: 20px;
+}
+.fa-search {
+    content: url(../img/search.svg);
+    padding-top: 5px;
+}
+.get-users {
+    margin-top:20px;
+    height: 500px;
+    overflow: auto;
+}
+.get-users ul {
+    padding: 0;
+    margin: 0;
+}
+.get-user {
+    padding-top: 20px;
+    list-style: none;
+}
+.info-user {
+    display: flex;
+}
+.change-avatar {
+    padding: 5pt 0 0 10pt;
+    display: flex;
+    align-items: start;
+}
+.name-user {
+    margin-left: 10px;
+    padding-top: 10px;
+}
+.name-user p {
+    margin: 0;
+}
+.avatar_search {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}

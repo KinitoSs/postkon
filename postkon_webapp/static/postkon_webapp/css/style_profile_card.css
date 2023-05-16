@@ -1,0 +1,116 @@
+.profile {
+    background-color: white;
+    border-radius: 15px;
+    position: fixed;
+    text-align: center;
+    margin-top: 100pt;
+    margin-left: 100pt;
+    padding: 20px;
+    width: 200pt;
+}
+
+.profile-card {
+    width: 100%;
+    margin: auto;
+    box-shadow: 0px 8px 60px -10px rgba(13, 28, 39, 0.2);
+    background: #fff;
+    border-radius: 12px;
+    max-width: 700px;
+    position: relative;
+}
+
+.profile-card.active .profile-card__cnt {
+    filter: blur(6px);
+}
+
+.profile-card.active .profile-card-message,
+.profile-card.active .profile-card__overlay {
+    opacity: 1;
+    pointer-events: auto;
+    transition-delay: 0.1s;
+}
+
+.profile-card.active .profile-card-form {
+    transform: none;
+    transition-delay: 0.1s;
+}
+
+.profile-card__img {
+    width: 80pt;
+    height: 80pt;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    z-index: 4;
+    box-shadow: 0px 5px 50px 0px #42C2FF, 0px 0px 0px 7px #85F4FF;
+}
+
+.profile-card__img img {
+    display: block;
+    width: 80pt;
+    height: 80pt;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-card__cnt {
+    margin-top: -35px;
+    text-align: center;
+    padding: 10px 20px;
+    transition: all 0.3s;
+}
+
+.profile-card__name { /*Решить проблему с длинными именами!*/
+    /* white-space: pre-wrap;
+    word-break: break-all; */
+    font-weight: 500;
+    font-size: 24px;
+    color: #004e72;
+    margin: 15px 0;
+}
+
+.profile-card-date-of-birth {
+    justify-content: center;
+    display: flex;
+    font-size: 18px;
+    font-weight: 500;
+    color: #05405C;
+    margin-bottom: 15px;
+}
+
+/* .profile-card-loc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.profile-card-loc__icon {
+    display: inline-flex;
+    font-size: 27px;
+    margin-right: 10px;
+} */
+.profile-card-description{
+    white-space: pre-wrap;
+}
+.subsribes {
+    margin: 0 auto;
+}
+.separation-line {
+    width: 100px;
+    height: 5px;
+    background-color: #42C2FF;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 25px 2px #42C2FF; 
+    box-shadow: 0px 0px 25px 2px #42C2FF;
+    margin: 20px auto;
+}
+.subsribes-number {
+    padding-bottom: 20px;
+    font-size: 25pt;
+/*    font-weight: 700;*/
+}

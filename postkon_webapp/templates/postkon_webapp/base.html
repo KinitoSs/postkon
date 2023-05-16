@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'postkon_webapp/css/style.css' %}">
+        {% block css_additional %}
+        {% endblock css_additional %}
+        <!-- Шрифт -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Rubik&family=Work+Sans:wght@500&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> 
+        <title>
+            {% block title %}
+            {% endblock title %}
+        </title> 
+    </head>
+    <body>
+
+        {% block content %}
+        {% endblock content %}
+
+        {% block js_additional %}
+        {% endblock js_additional %}
+
+    </body>
+</html>

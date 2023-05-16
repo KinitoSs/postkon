@@ -1,0 +1,31 @@
+<div class="search-users">
+    <form class="form-search" method="post">
+        <div class="search">
+            <input type="text"
+                   class="input-search"
+                   placeholder="Кого вы хотите найти?"
+                   name = 'user_simvol'>
+            <button type="submit" class="btn-search">
+                <i class="fa-search"></i>
+            </button>
+            <script type="text/javascript">
+                var searchUrl = "{% url 'search_users' %}";
+            </script>
+        </div>
+    </form>
+    <div class="get-users">
+        <ul id="add-user">
+            <!-- ��� ����� �������������� ��������� ������������ -->
+            <li class = "get-user">
+                <!-- <div class="info-user">
+            <div class="change-avatar">
+              <img src="img/work_space/avatar_mini.svg" alt="�������������� �����" />
+            </div>
+            <div class="name-user">
+              <p>Name User</p>
+            </div>
+          </div> -->
+            </li>
+        </ul>
+    </div>
+</div>

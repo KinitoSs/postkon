@@ -1,0 +1,95 @@
+{% extends 'postkon_webapp/base.html' %}
+{% load static %}
+
+{% block css_additional %}
+  <link rel="stylesheet" href="{% static 'postkon_webapp/css/style_posts.css' %}">
+  <link rel="stylesheet" href="{% static 'postkon_webapp/css/style_navbar.css' %}">
+  <link rel="stylesheet" href="{% static 'postkon_webapp/css/style_profile_card.css' %}">
+  <link rel="stylesheet" href="{% static 'postkon_webapp/css/style_search.css' %}">
+{% endblock css_additional %}
+
+{% block title %}
+  Профиль
+{% endblock title %}
+
+{% block content %}
+  {% include 'postkon_webapp/navbar.html' %}
+  <main>
+    <div class="profile">
+      <div class="profile-card">
+        <div class="profile-card__img">
+          {% if profile.avatar_img %}
+          <img src="{{ profile.avatar_img }}" alt="profile card">
+          {% else %}
+            <img src="{% static 'postkon_webapp/img/info_about_profile/avatar_profile.svg' %}" alt="profile card">
+          {% endif %}
+        </div>
+        <div class="profile-card__cnt">
+          <div class="profile-card__name">{{ profile.user.first_name }} {{ profile.user.last_name }}</div>
+          <div class="profile-card-date-of-birth">
+            <div class="cal-profile">
+              <img src="{% static 'postkon_webapp/img/info_about_profile/cal_profile.svg' %}">
+            </div>
+            <div class = "date-of-birth">
+              
+              {{ profile.birthday }}
+            </div>
+          </div>
+          <span class="profile-card-description">{% if profile.status %}{{ profile.status }}{% else %}Статус не установлен.{% endif %}</span>
+        </div>
+      </div>
+    </div>
+    {% include 'postkon_webapp/search_users.html' %}
+    <div class="posts">
+      <div id='container'>
+        {% if profile == request.user.profile %}
+        {% include 'postkon_webapp/add_post.html' %}
+        {% endif %}
+        <div id='feed-container'>
+          <ul id='feed'>
+            {% if posts %}
+              {% for post in posts reversed %}
+                <li class='post'>
+                  <div class="post-info">
+                    <div class="avatar-mini">
+                      {% if profile.avatar_img %}
+                        <img src="{{ profile.avatar_img }}" alt="profile card">
+                      {% else %}
+                        <img src="{% static 'postkon_webapp/img/info_about_profile/avatar_profile.svg' %}" alt="profile card">
+                      {% endif %}
+                    </div>
+                    <div class="name-and-time">
+                      <div class="name-p">
+                        <p class="name-post">{{ post.user.username }}</p>
+                      </div>
+                      <div class="post-t">
+                        <p class='post-timestamp'>{{ post.date_uploaded }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="read-more" style="overflow: hidden;">
+                    <p class='post-content'>{{ post.text }}</p>
+                  </div>
+                  <div onclick="ShowMore(event);" class="read-next read-next-style">Показать полностью...</div>
+                </li>
+              {% endfor %}
+            {% else %}
+              <li class='post'></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>    
+    </div>
+  </main>
+  <!-- <audio controls="controls" autoplay="autoplay">
+    <source src="media/OMEGALUL.m4a" type="audio/x-m4a">
+    Ваш браузер не поддерживает элемент <code>audio</code>.
+  </audio> -->
+
+{% endblock content %}
+
+{% block js_additional %}
+  <script src="{% static 'postkon_webapp/js/main.js' %}"></script>
+  <script src="{% static 'postkon_webapp/js/script_posts.js' %}"></script>
+  <script src="{% static 'postkon_webapp/js/search_users.js' %}"></script>
+{% endblock js_additional %}

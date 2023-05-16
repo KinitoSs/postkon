@@ -1,0 +1,7 @@
+black==23.3.0
+Django==4.2.1
+django_extensions==3.2.1
+matplotlib==3.7.1
+Requests==2.30.0
+django-cors-headers
+django-autoslug

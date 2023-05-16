@@ -1,0 +1,70 @@
+{% extends 'postkon_webapp/base.html' %}
+{% load static %}
+
+{% block css_additional %}
+  <link rel="stylesheet" href="{% static 'postkon_webapp/css/style_posts.css' %}">
+  <link rel="stylesheet" href="{% static 'postkon_webapp/css/style_search.css' %}">
+  <link rel="stylesheet" href="{% static 'postkon_webapp/css/style_navbar.css' %}">
+{% endblock css_additional %}
+
+{% block title %}
+  Посты
+{% endblock title %}
+
+{% block content %}
+  {% include 'postkon_webapp/navbar.html' %}
+  <main>
+    {% include 'postkon_webapp/search_users.html' %}
+    <div class="posts">
+      <div id='container'>
+        {% include 'postkon_webapp/add_post.html' %}
+        <div id='feed-container'>
+          <ul id='feed'>
+            {% if posts %}
+            {% for post in posts reversed %}
+            <div class="post">
+              <h2>{{ post.title }}</h2>
+              <p>{{ post.content }}</p>
+            </div>
+                <li class='post'>
+                  <div class="post-info">
+                    <div class="avatar-mini">
+                      {% if post.profile.avatar_img %}
+                        <img src="{{ post.profile.avatar_img }}" alt="profile card">
+                      {% else %}
+                        <img src="{% static 'postkon_webapp/img/work_space/avatar_mini.svg' %}" alt="profile card">
+                      {% endif %} 
+                    </div>
+                    <div class="name-and-time">
+                      <div class="name-p">
+                        <p class="name-post">{{ post.profile.user.username }}</p>
+                      </div>
+                      <div class="post-t">
+                        <p class='post-timestamp'>{{ post.date_uploaded }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="read-more" style="overflow: hidden;">
+                    <p class='post-content'>{{ post.text }}</p>
+                  </div>
+                  <div onclick="ShowMore(event);" class="read-next read-next-style">Показать полностью...</div>
+                  {% if user.is_superuser %}
+                    <button class="delete-post-btn" data-post-id="{{ post.id }}">Удалить</button>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            {% else %}
+                <li class='post'></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>    
+    </div>
+  </main>
+{% endblock content %}
+
+{% block js_additional %}
+  <script src="{% static 'postkon_webapp/js/main.js' %}"></script>
+  <script src="{% static 'postkon_webapp/js/script_posts.js' %}"></script>
+  <script src="{% static 'postkon_webapp/js/search_users.js' %}"></script>
+{% endblock js_additional %}

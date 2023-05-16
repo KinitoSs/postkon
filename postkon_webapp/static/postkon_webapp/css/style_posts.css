@@ -1,0 +1,231 @@
+/* Стили для активного окна и окна постов */
+.posts {
+  margin-top: 120pt;
+}
+.posts-work-space {
+  width: 100%;
+  min-height: 150pt;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.static-post {
+  margin-top: 20pt;
+  background-color: white;
+  border-radius: 5px;
+  min-width: none;
+  min-height: 50pt;
+}
+
+#container {
+
+  width: 600px;
+  margin: 0 auto;
+  border-radius: 0 0 20px 20px;
+  filter: drop-shadow(0px 4px 9px rgba(0, 0, 0, 0.15));
+}
+
+#form-container {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  border-radius: 5px;
+  margin: 0 auto;
+  width: 500px;
+  margin-bottom: 30px;
+}
+#form-container textarea {
+  width: 400px;
+  height: 60px;
+  margin-top: 10pt;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  resize: none;
+  font-family: calibri;
+  font-size: 16px;
+  border: none;
+}
+#form-container textarea:focus {
+  outline: none;
+}
+
+#feed-container {    
+  width: 500px;
+  margin: 0 auto;
+  filter: drop-shadow(0px 4px 9px rgba(0, 0, 0, 0.15));
+}
+
+#feed-container #feed {
+  padding-left: 0px;
+}
+
+#feed-container #feed .post {
+  background-color: white;
+  border-radius: 5px;
+  list-style: none;
+  margin-bottom: 30px;
+  word-break: break-word;
+  text-align: left;
+}
+
+#feed-container #feed .post .post-content {
+  padding: 0 15pt 20pt;
+  margin-bottom: 5px;
+
+  white-space: pre-wrap;
+}
+#feed-container #feed .post .post-timestamp {
+  margin: 0;
+  font-size: 12px;
+}
+
+.avatar-mini {
+  display: flex;
+  padding: 10pt 0 0 10pt;
+  align-items: start;
+}
+
+.avatar-mini img {
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  /* transform: translateY(-50%); */
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  /* z-index: 4; */
+  box-shadow: 0px 5px 50px 0px #42c2ff, 0px 0px 0px 4px #85f4ff;
+}
+
+.post-info {
+  display: flex;
+}
+
+.name-and-time {
+  margin-left: 10px;
+  padding-top: 10px;
+}
+
+.name-post {
+  margin: 0;
+
+}
+
+/* Дополнительные стили для сокрытия части текста в постах */
+.read-more{
+  height:100px;
+}
+
+.read-next-style {
+  font-size: 10pt;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 20px;
+  font-weight: bold;
+  color: #42C2FF;
+
+}
+.read-next-style:hover{
+  color:#004e72;
+  transition: 0.7s;
+}
+
+/* Стили для кнопки отправки поста */
+.pos-btn {
+  margin: 0 auto;
+}
+.btn {
+  background: #42C2FF;
+  color: #004e72;
+  width: 100px;
+  height: 30px;
+  border: 0;
+  font-size: 13px;
+  border-radius: 5px 5px 0 0;
+  font-family: 'Rubik', sans-serif;
+  transition: 0.6s;
+  overflow: hidden;
+  margin-left: 80%;
+}
+.btn:focus {
+  outline: 0;
+}
+.btn:before {
+  content: "";
+  display: block;
+  background: rgba(255, 255, 255, 0.5);
+  width: 60px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0.5;
+  filter: blur(30px);
+  transform: translateX(-100px) skewX(-15deg);
+}
+.btn:after {
+  content: "";
+  display: block;
+  background: rgba(255, 255, 255, 0.2);
+  width: 30px;
+  height: 100%;
+  left: 30px;
+  top: 0;
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(-100px) skewX(-15deg);
+}
+.btn:hover {
+  background: #6BE1FF;
+  cursor: pointer;
+}
+.btn:hover:before {
+  transform: translateX(300px) skewX(-15deg);
+  opacity: 0.6;
+  transition: 0.7s;
+}
+.btn:hover:after {
+  transform: translateX(300px) skewX(-15deg);
+  opacity: 1;
+  transition: 0.7s;
+}
+#ta {
+  line-height: 20px;
+}
+
+.delete-post-btn {
+  background-color: #dc3545;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.delete-post-btn:hover {
+  background-color: #c82333;
+}
+
+/* 
+.theme-light {
+  --color-primary: #F9BEBD;
+  --color-secondary: #FFDFCD;
+  --color-accent: #8A6A54;
+  --font-color: #8A6A54;
+  --title-color: #FFDFCD;
+  --color-shop-animals: #00D1FF;
+  --color-shop-upgrades: #34EF7F;
+  --gradient: linear-gradient(158.37deg, #E7F0B4 8.96%, #F9CBBD 66.17%);
+}
+
+.theme-dark {
+  --color-primary: #26263F;
+  --color-secondary: #BFB3FE;
+  --color-accent: #5C4BB2;
+  --font-color: #ffffff;
+  --title-color: #ffffff;
+  --color-shop-animals: #5C4BB2;
+  --color-shop-upgrades: rgb(37, 178, 221);
+  --gradient: linear-gradient(163.1deg, #272740 -33.48%, #4826A4 138.39%);
+} */
