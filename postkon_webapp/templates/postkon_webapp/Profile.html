@@ -17,9 +17,15 @@
   <main>
     <div class="profile">
       <div class="profile-card">
+        {% if user.is_superuser %}
+          <form action="{% url 'ban_user' profile.slug %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Ban user</button>
+          </form>
+        {% endif %}
         <div class="profile-card__img">
           {% if profile.avatar_img %}
-          <img src="{{ profile.avatar_img }}" alt="profile card">
+            <img src="{{ profile.avatar_img }}" alt="profile card">
           {% else %}
             <img src="{% static 'postkon_webapp/img/info_about_profile/avatar_profile.svg' %}" alt="profile card">
           {% endif %}
@@ -31,7 +37,6 @@
               <img src="{% static 'postkon_webapp/img/info_about_profile/cal_profile.svg' %}">
             </div>
             <div class = "date-of-birth">
-              
               {{ profile.birthday }}
             </div>
           </div>

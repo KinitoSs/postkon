@@ -2,7 +2,7 @@
 import json
 from unicodedata import name
 from django.contrib.auth.views import LoginView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.http import JsonResponse
 from django.http import HttpResponseRedirect
 
@@ -20,6 +20,7 @@ from django.views import View
 from matplotlib.font_manager import json_dump, json_load
 from requests import Response
 from turtle import update
+from django.contrib.admin.views.decorators import staff_member_required
 
 # Local imports
 from .models import Profile, Post
@@ -161,3 +162,9 @@ def logout_view(request):
     return HttpResponse("Вы успешно вышли из учетной записи")
 
 
+@staff_member_required
+def ban_user(request, slug_user: str):
+    profile = get_object_or_404(profile, slug=slug_user)
+    profile.is_banned = True
+    profile.save()
+    return HttpResponseRedirect(reverse('one_user', args=[profile.slug]))

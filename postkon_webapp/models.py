@@ -15,6 +15,7 @@ class Profile(models.Model):
     avatar_img = models.CharField(max_length=500, null=True, blank=True)
     slug = AutoSlugField(populate_from="user", unique=True)
     # slug = models.SlugField(default='', null=False, db_index=True)
+    is_banned = models.BooleanField(default=False)
 
     def get_url(self):
         return reverse("one_user", args=[self.slug])
