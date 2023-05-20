@@ -4,15 +4,14 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('postkon_webapp', '0013_alter_profile_avatar_img'),
+        ("postkon_webapp", "0013_alter_profile_avatar_img"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='post',
-            old_name='user',
-            new_name='profile',
+            model_name="post",
+            old_name="user",
+            new_name="profile",
         ),
     ]

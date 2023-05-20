@@ -9,22 +9,21 @@ from django_extensions.db.fields import AutoSlugField
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(
-        User, related_name="profile", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
     birthday = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=255, null=True, blank=True)
     avatar_img = models.CharField(max_length=500, null=True, blank=True)
-    slug = AutoSlugField(populate_from='user', unique=True)
+    slug = AutoSlugField(populate_from="user", unique=True)
     # slug = models.SlugField(default='', null=False, db_index=True)
 
     def get_url(self):
-        return reverse('one_user', args=[self.slug])
+        return reverse("one_user", args=[self.slug])
 
     def get_settings_url(self):
-        return reverse('user_settings', args=[self.slug])
+        return reverse("user_settings", args=[self.slug])
 
     def __str__(self):
-        return f'{self.user.username}'
+        return f"{self.user.username}"
 
 
 class Moderator(Profile):
@@ -33,10 +32,11 @@ class Moderator(Profile):
         if post.profile != self:
             post.delete()
 
+
 class Post(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     date_uploaded = models.DateTimeField(default=timezone.now)
     text = models.CharField(max_length=500)
 
     def __str__(self):
-        return f'{self.profile.user.username} - {self.date_uploaded}'
+        return f"{self.profile.user.username} - {self.date_uploaded}"

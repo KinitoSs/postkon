@@ -8,7 +8,6 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -17,23 +16,62 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('birthday', models.DateField(blank=True, null=True)),
-                ('status', models.CharField(blank=True, max_length=255, null=True)),
-                ('avatar_img', models.ImageField(null=True, upload_to='images_uploaded')),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, populate_from='user')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='profile', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("birthday", models.DateField(blank=True, null=True)),
+                ("status", models.CharField(blank=True, max_length=255, null=True)),
+                (
+                    "avatar_img",
+                    models.ImageField(null=True, upload_to="images_uploaded"),
+                ),
+                (
+                    "slug",
+                    autoslug.fields.AutoSlugField(editable=False, populate_from="user"),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="profile",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Post',
+            name="Post",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_uploaded', models.DateTimeField(default=django.utils.timezone.now)),
-                ('text', models.CharField(max_length=500)),
-                ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "date_uploaded",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                ("text", models.CharField(max_length=500)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

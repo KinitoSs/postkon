@@ -48,7 +48,7 @@
                     <p class='post-content'>{{ post.text }}</p>
                   </div>
                   <div onclick="ShowMore(event);" class="read-next read-next-style">Показать полностью...</div>
-                  {% if user.is_superuser %}
+                  {% if user.is_superuser or post.profile == request.user.profile %}
                     <button class="delete-post-btn" data-post-id="{{ post.id }}">Удалить</button>
                   {% endif %}
                 </li>

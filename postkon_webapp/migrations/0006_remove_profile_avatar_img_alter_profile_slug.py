@@ -5,19 +5,20 @@ import django_extensions.db.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('postkon_webapp', '0005_alter_profile_slug'),
+        ("postkon_webapp", "0005_alter_profile_slug"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='profile',
-            name='avatar_img',
+            model_name="profile",
+            name="avatar_img",
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='slug',
-            field=django_extensions.db.fields.AutoSlugField(blank=True, editable=False, populate_from='user.username'),
+            model_name="profile",
+            name="slug",
+            field=django_extensions.db.fields.AutoSlugField(
+                blank=True, editable=False, populate_from="user.username"
+            ),
         ),
     ]

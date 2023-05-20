@@ -5,15 +5,14 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('postkon_webapp', '0003_alter_profile_slug'),
+        ("postkon_webapp", "0003_alter_profile_slug"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='profile',
-            name='slug',
-            field=autoslug.fields.AutoSlugField(editable=False, populate_from='user'),
+            model_name="profile",
+            name="slug",
+            field=autoslug.fields.AutoSlugField(editable=False, populate_from="user"),
         ),
     ]

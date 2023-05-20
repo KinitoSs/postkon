@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('postkon_webapp', '0011_alter_profile_user'),
+        ("postkon_webapp", "0011_alter_profile_user"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='avatar_img',
+            model_name="profile",
+            name="avatar_img",
             field=models.CharField(blank=True, max_length=7, null=True),
         ),
     ]
