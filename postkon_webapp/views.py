@@ -161,13 +161,3 @@ def logout_view(request):
     return HttpResponse("Вы успешно вышли из учетной записи")
 
 
-class CustomLoginView(LoginView):
-    template_name = "login.html"
-    success_url = reverse_lazy("home")
-
-    def form_valid(self, form):
-        # Проверяем, является ли пользователь суперпользователем
-        if self.request.user.is_superuser:
-            return HttpResponseRedirect("/admin/")
-        else:
-            return super().form_valid(form)
