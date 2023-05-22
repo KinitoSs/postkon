@@ -17,12 +17,6 @@
   <main>
     <div class="profile">
       <div class="profile-card">
-        {% if user.is_superuser %}
-          <form action="{% url 'ban_user' profile.slug %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Ban user</button>
-          </form>
-        {% endif %}
         <div class="profile-card__img">
           {% if profile.avatar_img %}
             <img src="{{ profile.avatar_img }}" alt="profile card">
@@ -41,6 +35,12 @@
             </div>
           </div>
           <span class="profile-card-description">{% if profile.status %}{{ profile.status }}{% else %}Статус не установлен.{% endif %}</span>
+          {% if user.is_superuser %}
+          <form action="{% url 'ban_user' profile.slug %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Ban user</button>
+          </form>
+          {% endif %}
         </div>
       </div>
     </div>

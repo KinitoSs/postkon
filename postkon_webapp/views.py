@@ -88,17 +88,20 @@ def search_users(request):
 
 @csrf_exempt
 def add_post(request):
-    user_input = request.body.decode("utf-8")
+    if request.user.profile.is_banned:
+        return JsonResponse({"error": "You are banned from posting."})
+    else:
+        user_input = request.body.decode("utf-8")
 
-    created_post = Post.objects.create(profile=request.user.profile, text=user_input)
+        created_post = Post.objects.create(profile=request.user.profile, text=user_input)
 
-    data = {
-        "creator_username": created_post.profile.user.username,
-        "creator_avatar_img": created_post.profile.avatar_img,
-        "date_uploaded": created_post.date_uploaded,
-    }
+        data = {
+            "creator_username": created_post.profile.user.username,
+            "creator_avatar_img": created_post.profile.avatar_img,
+            "date_uploaded": created_post.date_uploaded,
+        }
 
-    return JsonResponse(data)
+        return JsonResponse(data)
 
 
 @csrf_exempt
@@ -164,7 +167,7 @@ def logout_view(request):
 
 @staff_member_required
 def ban_user(request, slug_user: str):
-    profile = get_object_or_404(profile, slug=slug_user)
+    profile = get_object_or_404(Profile, slug=slug_user)
     profile.is_banned = True
     profile.save()
     return HttpResponseRedirect(reverse('one_user', args=[profile.slug]))
