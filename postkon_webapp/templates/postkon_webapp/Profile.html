@@ -36,10 +36,17 @@
           </div>
           <span class="profile-card-description">{% if profile.status %}{{ profile.status }}{% else %}Статус не установлен.{% endif %}</span>
           {% if user.is_superuser %}
-          <form action="{% url 'ban_user' profile.slug %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Ban user</button>
-          </form>
+            {% if profile.is_banned %}
+              <form action="{% url 'unban_user' profile.slug %}" method="post">
+                {% csrf_token %}
+                <button class="unban-user-button" type="submit">Разбанить</button>
+              </form>
+            {% else %}
+              <form action="{% url 'ban_user' profile.slug %}" method="post">
+                {% csrf_token %}
+                <button class="ban-user-button" type="submit">Забанить</button>
+              </form>
+            {% endif %}
           {% endif %}
         </div>
       </div>

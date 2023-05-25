@@ -89,7 +89,7 @@ def search_users(request):
 @csrf_exempt
 def add_post(request):
     if request.user.profile.is_banned:
-        return JsonResponse({"error": "You are banned from posting."})
+        return JsonResponse({"error": "Ты забанен и не можешь постить."})
     else:
         user_input = request.body.decode("utf-8")
 
@@ -169,5 +169,12 @@ def logout_view(request):
 def ban_user(request, slug_user: str):
     profile = get_object_or_404(Profile, slug=slug_user)
     profile.is_banned = True
+    profile.save()
+    return HttpResponseRedirect(reverse('one_user', args=[profile.slug]))
+
+@staff_member_required
+def unban_user(request, slug_user: str):
+    profile = get_object_or_404(Profile, slug=slug_user)
+    profile.is_banned = False
     profile.save()
     return HttpResponseRedirect(reverse('one_user', args=[profile.slug]))
