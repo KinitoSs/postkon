@@ -12,6 +12,6 @@ urlpatterns = [
     path("search-user/", views.search_users, name="search_users"),
     path("delete_post/", views.delete_post, name="delete_post"),
     path("add-post/", views.add_post, name="add_post"),
-    path('ban_user/<slug:slug_user>', views.ban_user, name='ban_user'),
-    path('unban_user/<slug:slug_user>', views.unban_user, name='unban_user'),
+    path("ban_user/<slug:slug_user>", views.ban_user, name="ban_user"),
+    path("unban_user/<slug:slug_user>", views.unban_user, name="unban_user"),
 ]

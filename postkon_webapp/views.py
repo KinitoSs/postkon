@@ -93,7 +93,9 @@ def add_post(request):
     else:
         user_input = request.body.decode("utf-8")
 
-        created_post = Post.objects.create(profile=request.user.profile, text=user_input)
+        created_post = Post.objects.create(
+            profile=request.user.profile, text=user_input
+        )
 
         data = {
             "creator_username": created_post.profile.user.username,
@@ -170,11 +172,12 @@ def ban_user(request, slug_user: str):
     profile = get_object_or_404(Profile, slug=slug_user)
     profile.is_banned = True
     profile.save()
-    return HttpResponseRedirect(reverse('one_user', args=[profile.slug]))
+    return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
+
 
 @staff_member_required
 def unban_user(request, slug_user: str):
     profile = get_object_or_404(Profile, slug=slug_user)
     profile.is_banned = False
     profile.save()
-    return HttpResponseRedirect(reverse('one_user', args=[profile.slug]))
+    return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
