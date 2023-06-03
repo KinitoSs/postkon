@@ -34,11 +34,13 @@ def ban_user(request, slug_user: str):
     profile.ban()
     return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
 
+
 @staff_member_required
 def unban_user(request, slug_user: str):
     profile = get_object_or_404(Profile, slug=slug_user)
     profile.unban()
     return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
+
 
 @csrf_exempt
 def add_post(request):
