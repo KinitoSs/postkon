@@ -1,32 +1,23 @@
-# Standard library imports
-import json
-from unicodedata import name
-from django.contrib.auth.views import LoginView
-from django.urls import reverse_lazy, reverse
-from django.http import JsonResponse
-from django.http import HttpResponseRedirect
-
-# Third-party imports
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
 from django.forms import ModelForm
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template.loader import render_to_string
-from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse_lazy, reverse
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from matplotlib.font_manager import json_dump, json_load
 from requests import Response
 from turtle import update
-from django.contrib.admin.views.decorators import staff_member_required
+from unicodedata import name
+import json
 
-# Local imports
-from .models import Profile, Post
 from .forms import ProfileSettingsForm, RegisterForm, SettingsForm
-
-# Create your views here.
+from .models import Profile, Post
 
 
 class Login(LoginView):
@@ -34,48 +25,14 @@ class Login(LoginView):
 
 
 class Logout(LogoutView):
-    next_page = "/login"  # Редирект на страницу логина
+    next_page = "/login"
 
 
-def main_page(request):
-    if not request.user.is_authenticated:
-        return redirect("/login")
-    posts = Post.objects.all()
-    profile = request.user.profile
-    return render(
-        request,
-        "postkon_webapp/posts.html",
-        context={
-            "posts": posts,
-            "profile": profile,
-        },
-    )
-
-
-def register_view(request):
-    form = RegisterForm(request.POST or None)
-
-    if form.is_valid():  
-        username = form.cleaned_data.get("username")
-        email = form.cleaned_data.get("email")
-        raw_password = form.cleaned_data.get("password1")
-        birthday = form.cleaned_data.get("birthday")
-        
-        profile = Profile()
-        profile.register(username=username, email=email, password=raw_password, birthday=birthday)
-        
-        user = authenticate(username=username, password=raw_password)
-        login(request, user)
-        return redirect("/")
-    context = {"form": form}
-    return render(request, "postkon_webapp/register.html", context)
-
-
-@csrf_exempt
-def search_users(request):
-    search_input = request.POST["user_simvol"]
-    data = Profile.search_users(search_input)
-    return JsonResponse(data, safe=False)
+@staff_member_required
+def ban_user(request, slug_user: str):
+    profile = get_object_or_404(Profile, slug=slug_user)
+    profile.ban()
+    return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
 
 
 @csrf_exempt
@@ -95,6 +52,33 @@ def delete_post(request):
         return JsonResponse({"success": False})
 
 
+def logout_view(request):
+    logout(request)
+    return HttpResponse("You have been successfully logged out.")
+
+
+def main_page(request):
+    if not request.user.is_authenticated:
+        return redirect("/login")
+    posts = Post.objects.all()
+    profile = request.user.profile
+    return render(
+        request,
+        "postkon_webapp/posts.html",
+        context={
+            "posts": posts,
+            "profile": profile,
+        },
+    )
+
+
+@csrf_exempt
+def search_users(request):
+    search_input = request.POST["user_simvol"]
+    data = Profile.search_users(search_input)
+    return JsonResponse(data, safe=False)
+
+
 def show_one_user(request, slug_user: str):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, slug=slug_user)
@@ -110,6 +94,13 @@ def show_one_user(request, slug_user: str):
         )
     else:
         return redirect("/login")
+
+
+@staff_member_required
+def unban_user(request, slug_user: str):
+    profile = get_object_or_404(Profile, slug=slug_user)
+    profile.unban()
+    return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
 
 
 def user_settings(request, slug_user: str):
@@ -140,20 +131,25 @@ def user_settings(request, slug_user: str):
     )
 
 
-def logout_view(request):
-    logout(request)
-    return HttpResponse("Вы успешно вышли из учетной записи")
+def register_view(request):
+    form = RegisterForm(request.POST or None)
 
+    if form.is_valid():
+        username = form.cleaned_data.get("username")
+        email = form.cleaned_data.get("email")
+        raw_password = form.cleaned_data.get("password1")
+        birthday = form.cleaned_data.get("birthday")
 
-@staff_member_required
-def ban_user(request, slug_user: str):
-    profile = get_object_or_404(Profile, slug=slug_user)
-    profile.ban()
-    return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
+        profile = Profile()
+        profile.register(
+            username=username,
+            email=email,
+            password=raw_password,
+            birthday=birthday,
+        )
 
-
-@staff_member_required
-def unban_user(request, slug_user: str):
-    profile = get_object_or_404(Profile, slug=slug_user)
-    profile.unban()
-    return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
+        user = authenticate(username=username, password=raw_password)
+        login(request, user)
+        return redirect("/")
+    context = {"form": form}
+    return render(request, "postkon_webapp/register.html", context)
