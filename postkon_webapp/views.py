@@ -54,15 +54,16 @@ def main_page(request):
 
 def register_view(request):
     form = RegisterForm(request.POST or None)
-    if form.is_valid():
-        user = form.save()
-        Profile.objects.create(
-            user=user,
-            birthday=form.cleaned_data.get("birthday"),
-        )
+
+    if form.is_valid():  
         username = form.cleaned_data.get("username")
         email = form.cleaned_data.get("email")
         raw_password = form.cleaned_data.get("password1")
+        birthday = form.cleaned_data.get("birthday")
+        
+        profile = Profile()
+        profile.register(username=username, email=email, password=raw_password, birthday=birthday)
+        
         user = authenticate(username=username, password=raw_password)
         login(request, user)
         return redirect("/")
@@ -73,46 +74,23 @@ def register_view(request):
 @csrf_exempt
 def search_users(request):
     search_input = request.POST["user_simvol"]
-    username_filter = User.objects.filter(username__icontains=search_input)
-    first_name_filter = User.objects.filter(first_name__icontains=search_input)
-    last_name_filter = User.objects.filter(last_name__icontains=search_input)
-    users = username_filter.union(first_name_filter).union(last_name_filter)
-    data = []
-    for user in users:
-        username = user.username
-        avatar_img = user.profile.avatar_img
-        url = "http://127.0.0.1:8000/users/" + user.profile.slug
-        data.append({"username": username, "url": url, "avatar_img": avatar_img})
+    data = Profile.search_users(search_input)
     return JsonResponse(data, safe=False)
 
 
 @csrf_exempt
 def add_post(request):
-    if request.user.profile.is_banned:
-        return JsonResponse({"error": "Ты забанен и не можешь постить."})
-    else:
-        user_input = request.body.decode("utf-8")
-
-        created_post = Post.objects.create(
-            profile=request.user.profile, text=user_input
-        )
-
-        data = {
-            "creator_username": created_post.profile.user.username,
-            "creator_avatar_img": created_post.profile.avatar_img,
-            "date_uploaded": created_post.date_uploaded,
-        }
-
-        return JsonResponse(data)
+    user_input = request.body.decode("utf-8")
+    data = Post.add_post(request, user_input)
+    return JsonResponse(data)
 
 
 @csrf_exempt
 def delete_post(request):
     if request.method == "POST":
         post_id = request.POST.get("post_id")
-        post = Post.objects.get(id=post_id)
-        post.delete()
-        return JsonResponse({"success": True})
+        result = Post.delete_post(post_id)
+        return JsonResponse(result)
     else:
         return JsonResponse({"success": False})
 
@@ -170,14 +148,12 @@ def logout_view(request):
 @staff_member_required
 def ban_user(request, slug_user: str):
     profile = get_object_or_404(Profile, slug=slug_user)
-    profile.is_banned = True
-    profile.save()
+    profile.ban()
     return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
 
 
 @staff_member_required
 def unban_user(request, slug_user: str):
     profile = get_object_or_404(Profile, slug=slug_user)
-    profile.is_banned = False
-    profile.save()
+    profile.unban()
     return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
