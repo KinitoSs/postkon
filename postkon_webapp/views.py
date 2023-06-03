@@ -34,11 +34,17 @@ def ban_user(request, slug_user: str):
     profile.ban()
     return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
 
+@staff_member_required
+def unban_user(request, slug_user: str):
+    profile = get_object_or_404(Profile, slug=slug_user)
+    profile.unban()
+    return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
 
 @csrf_exempt
 def add_post(request):
     user_input = request.body.decode("utf-8")
-    data = Post.add_post(request, user_input)
+    profile = request.user.profile
+    data = profile.add_post(user_input)
     return JsonResponse(data)
 
 
@@ -46,7 +52,8 @@ def add_post(request):
 def delete_post(request):
     if request.method == "POST":
         post_id = request.POST.get("post_id")
-        result = Post.delete_post(post_id)
+        profile = request.user.profile
+        result = profile.delete_post(post_id)
         return JsonResponse(result)
     else:
         return JsonResponse({"success": False})
@@ -96,13 +103,6 @@ def show_one_user(request, slug_user: str):
         return redirect("/login")
 
 
-@staff_member_required
-def unban_user(request, slug_user: str):
-    profile = get_object_or_404(Profile, slug=slug_user)
-    profile.unban()
-    return HttpResponseRedirect(reverse("one_user", args=[profile.slug]))
-
-
 def user_settings(request, slug_user: str):
     if not request.user.is_authenticated:
         return redirect("/login")
@@ -140,8 +140,7 @@ def register_view(request):
         raw_password = form.cleaned_data.get("password1")
         birthday = form.cleaned_data.get("birthday")
 
-        profile = Profile()
-        profile.register(
+        profile = Profile.register(
             username=username,
             email=email,
             password=raw_password,

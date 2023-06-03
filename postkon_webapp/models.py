@@ -21,6 +21,26 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+    def add_post(self, user_input):
+        if self.is_banned:
+            return {"error": "You are banned and can't post."}
+        else:
+            created_post = self.post_set.create(text=user_input)
+
+            data = {
+                "creator_username": self.user.username,
+                "creator_avatar_img": self.avatar_img,
+                "date_uploaded": created_post.date_uploaded,
+            }
+
+            return data
+
+    def delete_post(self, post_id):
+        post = get_object_or_404(self.post_set, id=post_id)
+        post.delete()
+
+        return {"success": True}
+
     @classmethod
     def search_users(cls, search_input):
         users = User.objects.filter(
@@ -37,16 +57,19 @@ class Profile(models.Model):
             })
         return data
 
-    def register(self, username, email, password, birthday):
+    @staticmethod
+    def register(username, email, password, birthday):
         user = User.objects.create_user(
             username=username,
             email=email,
             password=password
         )
-        self.user = user
-        self.birthday = birthday
-        self.save()
 
+        profile = Profile(user=user, birthday=birthday)
+        profile.save()
+
+        return profile
+        
     def ban(self):
         self.is_banned = True
         self.save()
@@ -78,29 +101,6 @@ class Post(models.Model):
     def __str__(self):
         return f"{self.profile.user.username} - {self.date_uploaded}"
 
-    @classmethod
-    def add_post(cls, request, user_input):
-        if request.user.profile.is_banned:
-            return {"error": "You are banned and can't post."}
-        else:
-            created_post = cls.objects.create(
-                profile=request.user.profile, text=user_input
-            )
-
-            data = {
-                "creator_username": created_post.profile.user.username,
-                "creator_avatar_img": created_post.profile.avatar_img,
-                "date_uploaded": created_post.date_uploaded,
-            }
-
-            return data
-
-    @classmethod
-    def delete_post(cls, post_id):
-        post = get_object_or_404(cls, id=post_id)
-        post.delete()
-
-        return {"success": True}
 
 
 
