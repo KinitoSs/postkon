@@ -27,13 +27,6 @@ class Profile(models.Model):
         return f"{self.user.username}"
 
 
-class Moderator(Profile):
-    def delete_user_post(self, post_id):
-        post = Post.objects.get(id=post_id)
-        if post.profile != self:
-            post.delete()
-
-
 class Post(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     date_uploaded = models.DateTimeField(default=timezone.now)
